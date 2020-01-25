@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,Dimensions } from 'react-native';
 import  NetInfoState from '@react-native-community/netinfo'
-import * as Animatable from 'react-native-animatable';
+
 
 const { width } = Dimensions.get('window');
 export default class App extends React.Component {
@@ -24,11 +24,11 @@ export default class App extends React.Component {
     <View style={styles.container}>
       {this.state.connected
       ?
-      <Animatable.View style={styles.showtext} animation="fadeOutUp" delay={3000}>
-      <View style={{backgroundColor: 'green',padding:15,borderRadius:5}}>
+      <View style={styles.showtext}>
+          <View style={{backgroundColor: 'green',padding:15,borderRadius:5}}>
             <Text style={styles.about}>You are connected.</Text>
          </View>
-       </Animatable.View>
+       </View>
       :
       <View style={styles.showtext}>
          <View style={{backgroundColor: '#b52424',padding:15,borderRadius:5}}>
