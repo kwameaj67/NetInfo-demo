@@ -3,7 +3,6 @@
     "name": "Network connectionn",
     "slug": "Network",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android",
