@@ -35,7 +35,8 @@ export default class App extends React.Component {
       {this.state.connected === true ?
         <Text style={styles.about}>You are connected.</Text>
         :  
-        <Text style={styles.about}>Oops! Please check your internet connection</Text>}
+        <Text style={styles.about}>Oops! Please check your internet connection</Text>
+        }
     </View>
   )
   }
