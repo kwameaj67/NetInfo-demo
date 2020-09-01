@@ -1,41 +1,41 @@
 import React from 'react';
-import { StyleSheet, Text, View,Dimensions } from 'react-native';
-import  NetInfoState from '@react-native-community/netinfo'
+import { StyleSheet, Text, View,Dimensions,Alert } from 'react-native';
+import  NetInfo from '@react-native-community/netinfo'
 
 
-const { width } = Dimensions.get('window');
+let unsubscribe = null
 export default class App extends React.Component {
+  constructor (props){
+    super(props)
+    this.handleConnectivity = this.handleConnectivity.bind(this)
+  }
   state = {
-    connected:true
+    connected:null
   }
   componentDidMount(){
-    NetInfoState.isConnected.addEventListener('connectionChange',this.handleConnectivity);
-  }
+     unsubscribe =  NetInfo.addEventListener(this.handleConnectivity)
+}
   componentWillUnmount(){
-    NetInfoState.isConnected.removeEventListener('connectionChange',this.handleConnectivity);
+    if (unsubscribe != null) unsubscribe()
+}
+  handleConnectivity = (state) => {
+    if (state.isConnected) {
+      this.setState({connected: state.isConnected});
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+    } else {
+      this.setState({connected: state.isConnected});
+    }
+    console.log(this.state.connected)
   }
-  handleConnectivity = (connected) => {
-    this.setState({connected});
-    console.log(`is connected: ${this.state.connected}`)
-  }
-  
+ 
   render(){
   return(
     <View style={styles.container}>
-      {this.state.connected
-      ?
-      <View style={styles.showtext}>
-          <View style={{backgroundColor: 'green',padding:15,borderRadius:5}}>
-            <Text style={styles.about}>You are connected.</Text>
-         </View>
-       </View>
-      :
-      <View style={styles.showtext}>
-         <View style={{backgroundColor: '#b52424',padding:15,borderRadius:5}}>
-            <Text style={styles.about}>Oops! Please check your internet connection</Text>
-         </View>
-       </View>
-      }
+      {this.state.connected === true ?
+        <Text style={styles.about}>You are connected.</Text>
+        :  
+        <Text style={styles.about}>Oops! Please check your internet connection</Text>}
     </View>
   )
   }
@@ -48,17 +48,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  showtext:{
-      height: 30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      width,
-      position: 'absolute',
-      top: 30,
-    },
-      about:{
-      fontSize: 14,
-      letterSpacing: -0.4,
-      color:"white",
-      },
+  about:{
+     fontSize: 14,
+     letterSpacing: -0.4,
+     color:"black",
+  },
 });
